@@ -22,54 +22,54 @@ func sharpenKatikati() {
 	sharpPencil := sharp_pencil.InitializeSharpPencil()
 	fmt.Println("出ているシャー芯", sharpPencil.PencilNum())
 
-	func() {
-		num, err := sharpPencil.PushButton()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
-	}()
-
-	func() {
-		num, err := sharpPencil.PushButton()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
-	}()
-
-	func() {
-		num, err := sharpPencil.WriteLetters()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		fmt.Println("文字を書き書き: 出ているシャー芯の長さ", num)
-	}()
-
-	sharpPencil.RefillLead()
-	fmt.Println("シャー芯を補充！")
-
-	func() {
-		num, err := sharpPencil.PushButton()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
-	}()
-
-	func() {
-		num, err := sharpPencil.PushButton()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
-	}()
-
-	func() {
-		num, err := sharpPencil.WriteLetters()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		fmt.Println("文字を書き書き: 出ているシャー芯の長さ", num)
-	}()
+	//func() {
+	//	num, err := sharpPencil.PushButton()
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//	}
+	//	fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
+	//}()
+	//
+	//func() {
+	//	num, err := sharpPencil.PushButton()
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//	}
+	//	fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
+	//}()
+	//
+	//func() {
+	//	num, err := sharpPencil.WriteLetters()
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//	}
+	//	fmt.Println("文字を書き書き: 出ているシャー芯の長さ", num)
+	//}()
+	//
+	//sharpPencil.RefillLead()
+	//fmt.Println("シャー芯を補充！")
+	//
+	//func() {
+	//	num, err := sharpPencil.PushButton()
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//	}
+	//	fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
+	//}()
+	//
+	//func() {
+	//	num, err := sharpPencil.PushButton()
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//	}
+	//	fmt.Println("シャーペンカチカチ: 出ているシャー芯の長さ", num)
+	//}()
+	//
+	//func() {
+	//	num, err := sharpPencil.WriteLetters()
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//	}
+	//	fmt.Println("文字を書き書き: 出ているシャー芯の長さ", num)
+	//}()
 }
