@@ -3,23 +3,23 @@ package sharp_pencil
 
 import "fmt"
 
-type pencilNum int
-type outPencilNum pencilNum
-type innerPencilNum pencilNum
+type typePencilNum int
+type typeOutPencilNum typePencilNum
+type typeInnerPencilNum typePencilNum
 type comparablePencilNum interface {
-	outPencilNum | innerPencilNum
+	typeOutPencilNum | typeInnerPencilNum
 }
 
 type ISharpPencil interface {
-	WriteLetters() (outPencilNum, error) // 外に出ているシャー芯を1つ消費する
-	PushButton() (outPencilNum, error)   // 中のシャー芯を1つ消費して、外のシャー芯を1つ追加する
-	RefillLead()                         // 中にシャー芯を5つ追加する
-	PencilNum() outPencilNum             // 外に出ているシャー芯の数を返す
+	WriteLetters() (typeOutPencilNum, error) // 外に出ているシャー芯を1つ消費する
+	PushButton() (typeOutPencilNum, error)   // 中のシャー芯を1つ消費して、外のシャー芯を1つ追加する
+	RefillLead()                             // 中にシャー芯を5つ追加する
+	PencilNum() typeOutPencilNum             // 外に出ているシャー芯の数を返す
 }
 
 type sharpPencil struct {
-	outPencilNum   outPencilNum
-	innerPencilNum innerPencilNum
+	outPencilNum   typeOutPencilNum
+	innerPencilNum typeInnerPencilNum
 }
 
 type isharpPencil struct {
@@ -30,32 +30,60 @@ func pencilNumIsSmallerThanOne[T comparablePencilNum](pencilNum T) bool {
 	return pencilNum < 1
 }
 
-func (p *isharpPencil) WriteLetters() (outPencilNum, error) {
-	if pencilNumIsSmallerThanOne(p.sharpPencil.outPencilNum) {
-		return p.PencilNum(), fmt.Errorf("シャー芯が出ていません")
+func consumeOutPencilNumByWriteLetters(outPencilNum typeOutPencilNum) typeOutPencilNum {
+	return outPencilNum - 1
+}
+
+func (sp *sharpPencil) writeLetters() (typeOutPencilNum, typeInnerPencilNum) {
+	return consumeOutPencilNumByWriteLetters(sp.outPencilNum), sp.innerPencilNum
+}
+
+func (isp *isharpPencil) WriteLetters() (typeOutPencilNum, error) {
+	if pencilNumIsSmallerThanOne(isp.sharpPencil.outPencilNum) {
+		return isp.PencilNum(), fmt.Errorf("シャー芯が出ていません")
 	}
-	p.sharpPencil = newSharpPencil(p.sharpPencil.outPencilNum-1, p.sharpPencil.innerPencilNum)
-	return p.PencilNum(), nil
+	isp.sharpPencil = newSharpPencil(isp.sharpPencil.writeLetters())
+	return isp.PencilNum(), nil
 }
 
-func (p *isharpPencil) PushButton() (outPencilNum, error) {
-	if pencilNumIsSmallerThanOne(p.sharpPencil.innerPencilNum) {
-		return p.PencilNum(), fmt.Errorf("シャー芯の補充をしてください")
+func addOutPencilNumByPushButton(outPencilNum typeOutPencilNum) typeOutPencilNum {
+	return outPencilNum + 1
+}
+
+func consumeInnerPencilNumByPushButton(innerPencilNum typeInnerPencilNum) typeInnerPencilNum {
+	return innerPencilNum - 1
+}
+
+func (sp *sharpPencil) pushButton() (typeOutPencilNum, typeInnerPencilNum) {
+	return addOutPencilNumByPushButton(sp.outPencilNum), consumeInnerPencilNumByPushButton(sp.innerPencilNum)
+}
+
+func (isp *isharpPencil) PushButton() (typeOutPencilNum, error) {
+	if pencilNumIsSmallerThanOne(isp.sharpPencil.innerPencilNum) {
+		return isp.PencilNum(), fmt.Errorf("シャー芯の補充をしてください")
 	}
-	p.sharpPencil = newSharpPencil(p.sharpPencil.outPencilNum+1, p.sharpPencil.innerPencilNum-1)
-	return p.PencilNum(), nil
+	isp.sharpPencil = newSharpPencil(isp.sharpPencil.pushButton())
+	return isp.PencilNum(), nil
 }
 
-func (p *isharpPencil) RefillLead() {
-	p.sharpPencil = newSharpPencil(p.sharpPencil.outPencilNum, p.sharpPencil.innerPencilNum+5)
+func addInnerPencilNumByRefillLead(innerPencilNum typeInnerPencilNum) typeInnerPencilNum {
+	return innerPencilNum + 5
 }
 
-func (p *isharpPencil) PencilNum() outPencilNum {
-	return p.sharpPencil.outPencilNum
+func (sp *sharpPencil) refillLead() (typeOutPencilNum, typeInnerPencilNum) {
+	return sp.outPencilNum, addInnerPencilNumByRefillLead(sp.innerPencilNum)
 }
 
-func (p *isharpPencil) innerPencilNum() innerPencilNum {
-	return p.sharpPencil.innerPencilNum
+func (isp *isharpPencil) RefillLead() {
+	isp.sharpPencil = newSharpPencil(isp.sharpPencil.refillLead())
+}
+
+func (isp *isharpPencil) PencilNum() typeOutPencilNum {
+	return isp.sharpPencil.outPencilNum
+}
+
+func (isp *isharpPencil) innerPencilNum() typeInnerPencilNum {
+	return isp.sharpPencil.innerPencilNum
 }
 
 func InitializeSharpPencil() ISharpPencil {
@@ -64,7 +92,7 @@ func InitializeSharpPencil() ISharpPencil {
 	}
 }
 
-func newSharpPencil(outPencilNum outPencilNum, innerPencilNum innerPencilNum) *sharpPencil {
+func newSharpPencil(outPencilNum typeOutPencilNum, innerPencilNum typeInnerPencilNum) *sharpPencil {
 	return &sharpPencil{
 		outPencilNum:   outPencilNum,
 		innerPencilNum: innerPencilNum,
