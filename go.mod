@@ -1,3 +1,3 @@
 module github.com/Hirochon/introduction-go-test
 
-go 1.17
+go 1.18
