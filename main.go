@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/Hirochon/introduction-go-test/error_handling"
+	"github.com/Hirochon/introduction-go-test/sharp_pencil"
 )
 
 func main() {
@@ -17,7 +20,8 @@ func sum(a, b int) int {
 }
 
 func sharpenKatikati() {
-	//sharpPencil := sharp_pencil.InitializeSharpPencil()
+	sharpPencil := sharp_pencil.InitializeSharpPencil()
+	fmt.Println(sharpPencil.PencilNum())
 	//fmt.Println("出ているシャー芯", sharpPencil.PencilNum())
 
 	//func() {
